@@ -1,0 +1,46 @@
+backend:
+  name: git-gateway
+  # name: test-repo # 공식 테스트용 
+  #  branch: main # Branch to update (optional; defaults to master)
+  commit_messages:
+      create: "Create {{collection}} “{{slug}}”"
+      update: "Update {{collection}} “{{slug}}”"
+      delete: "Delete {{collection}} “{{slug}}”"
+      uploadMedia: "Upload “{{path}}”"
+      deleteMedia: "Delete “{{path}}”"
+  locale: 'ko'
+  show_preview_links: true
+  search: true
+media_library:
+  name: cloudinary
+  config:
+    cloud_name: dasnqo6hk
+    api_key: 755439669586491
+public_folder: /upload
+collections:
+  - name: 'post'
+    label: 'post'
+    folder: 'content/post'
+    create: true
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    editor:
+      preview: false
+    view_filters:
+        - label: Drafts
+          field: draft
+          pattern: true
+    fields:
+        - {label: "Slug", name: slug, widget: "string",
+            pattern: ["^[a-z0-9ㄱ-힣]+(?:-[a-z0-9ㄱ-힣]+)*{1,40}$", "A slug can have no spaces or special characters"]
+          }
+        - {label: "Cover Image", name: cover, widget: "image"}
+        - {label: "Title", name: title}
+        - {label: "Publish Date", name: PublishDate, widget: "string", pattern: ["^[0-9]{4}-[0-9]{2}-[0-9]{2}$"], "yyyy-mm-mdd 형식으로 입력"}
+        # - {label: "Publish Date", name: PublishDate, widget: "string"}
+        - {label: "Date", name: Date, widget: "datetime", date_format: YYYY-MM-DD, time_format: HH:mm:ss}
+        - {label: "Description", name: description, widget: "text"}
+        - {label: "Summary", name: summary, widget: "text"}
+        - {label: "Draft", name: draft, widget: "boolean", default: false}
+        - {label: "Pin", name: pin, widget: "boolean", default: false}
+        - {label: "Tags", name: tags, widget: "list" }
+        - {label: "Body", name: body, widget: "markdown"}
